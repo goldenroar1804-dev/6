@@ -1,4 +1,3 @@
-```yaml
 name: Build StrayedX APK
 
 on:
@@ -22,9 +21,7 @@ jobs:
           java-version: 17
 
       - name: Set up Android SDK
-        run: |
-          echo "Android SDK is already installed"
-          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+        uses: android-actions/setup-android@v3
 
       - name: Install Android SDK
         run: |
@@ -49,4 +46,3 @@ jobs:
         with:
           name: StrayedX-Quest3-APK
           path: StrayedX/app/build/outputs/apk/debug/app-debug.apk
-```
