@@ -2,27 +2,24 @@ name: Build StrayedX APK
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: '17'
 
-            - name: Set up Android SDK
+      - name: Set up Android SDK
         run: |
-          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
 
       - name: Install Android SDK
         run: |
@@ -34,18 +31,11 @@ jobs:
           yes | "$SDKMANAGER" --licenses || true
           "$SDKMANAGER" --sdk_root=/usr/local/lib/android/sdk "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Install Android SDK
-        run: |
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.7
 
-      - name: Extract project
-        run: |
-          unzip -q StrayedX-Quest3-Starter.zip -d .
+      - name: Unzip starter project
+        run: unzip -o StrayedX-Quest3-Starter.zip -d .
 
       - name: Build APK
         run: |
